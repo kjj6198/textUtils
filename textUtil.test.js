@@ -161,3 +161,29 @@ describe('textUtils#simpleFormat', () => {
     expect(utils.simpleFormat('我是大帥哥\n\n')).toBe('我是大帥哥<br/><br/><br/>')
   });
 });
+
+describe('textUtils#isValidURL', () => {
+  it('is valid URL', () => {
+    expect(utils.isValidURL('https://staging.tripmoment.com/')).toBe(true)
+  });
+
+  it('files:// is not valid URL', () => {
+    expect(utils.isValidURL('files://staging.tripmoment.com/')).toBe(false)
+  });
+
+  it('ftp:// is valid URL', () => {
+    expect(utils.isValidURL('ftp://staging.tripmoment.com/')).toBe(true)
+  });
+
+  it('postgresql:// is not valid URL', () => {
+    expect(utils.isValidURL('postgresql://staging.tripmoment.com/')).toBe(false)
+  });
+
+  it('websocket:// is not valid URL', () => {
+    expect(utils.isValidURL('websocket://abc.def.com')).toBe(false)
+  });
+
+  it('localhost is not valid URL', () => {
+    expect(utils.isValidURL('http://localhost:3000')).toBe(false)
+  })
+});

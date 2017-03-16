@@ -1,5 +1,17 @@
 import { pipe, split, prop, compose } from 'ramda';
 
+export const isValidURL = (url) => {
+  let urlPattern = "(https?|ftp)://(www\\.)?(((([a-zA-Z0-9.-]+\\.){1,}[a-zA-Z]{2,4}|localhost))|((\\d{1,3}\\.){3}(\\d{1,3})))(:(\\d+))?(/([a-zA-Z0-9-._~!$&'()*+,;=:@/]|%[0-9A-F]{2})*)?(\\?([a-zA-Z0-9-._~!$&'()*+,;=:/?@]|%[0-9A-F]{2})*)?(#([a-zA-Z0-9._-]|%[0-9A-F]{2})*)?";
+
+  urlPattern = "^" + urlPattern + "$";
+  const regex = new RegExp(urlPattern);
+  if (new URL(url).hostname.indexOf('localhost') !== -1) {
+    return false;
+  }
+
+  return regex.test(url);
+};
+
 export const isChinese = (str) => {
   return  /[\u0800-\u9fa5]+/.test(str);
 }
