@@ -113,10 +113,22 @@ describe('textUtils#formatNumber', () => {
 
 
 describe('textUtils#numToCurrency', () => {
-  it('to currency', () => {
+  it('to $ currency', () => {
     expect(utils.numToCurrency(10000, {
-      locale: 'TW'
+      locale: 'TWD'
     })).toBe('$10,000')
+
+    expect(utils.numToCurrency(10000, {
+      locale: 'USD'
+    })).toBe('$10,000')
+
+    expect(utils.numToCurrency(10000, {
+      locale: 'CAD'
+    })).toBe('$10,000')
+  })
+
+  it('to ¥ currency', () => {
+    expect(utils.numToCurrency(10000, { locale: 'JPY' }))
   })
 });
 
@@ -142,4 +154,10 @@ describe('textUtils#numToPercentage', () => {
   it('convert number to precentage', () => {
     expect(utils.numToPercentage(0.001)).toBe('0.1%');
   })
+});
+
+describe('textUtils#simpleFormat', () => {
+  it('is format \\n to <br>', () => {
+    expect(utils.simpleFormat('我是大帥哥\n\n')).toBe('我是大帥哥<br/><br/><br/>')
+  });
 });

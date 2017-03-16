@@ -55,9 +55,12 @@ export const numToCurrency = (number, options = {
 }) => {
   const locale = prop('locale')(options);
   const currency = {
-    tw: '$'
+    TWD: '$',
+    USD: '$',
+    JPY: '¥',
+    CAD: '$',
   };
-  const getCurrency = (num) => prop(locale.toLowerCase())(currency) + num;
+  const getCurrency = (num) => prop(locale.toUpperCase())(currency) + num;
 
   return compose(
     getCurrency,
@@ -94,7 +97,11 @@ export const numToPercentage = (number) => {
     return number * 100 + '%';
   } else {
 
-  }
+  }  
+}
 
-  
+export const simpleFormat = (str) => {
+  return str.split('\n')
+    .map(line => `${line}<br/>`)
+    .join('');
 }
