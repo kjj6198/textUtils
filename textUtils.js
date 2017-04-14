@@ -1,4 +1,4 @@
-import { pipe, split, prop, compose } from 'ramda';
+import { toPairs, fromPairs, pipe, split, prop, compose, map } from 'ramda';
 
 export const isValidURL = (url) => {
   let urlPattern = "(https?|ftp)://(www\\.)?(((([a-zA-Z0-9.-]+\\.){1,}[a-zA-Z]{2,4}|localhost))|((\\d{1,3}\\.){3}(\\d{1,3})))(:(\\d+))?(/([a-zA-Z0-9-._~!$&'()*+,;=:@/]|%[0-9A-F]{2})*)?(\\?([a-zA-Z0-9-._~!$&'()*+,;=:/?@]|%[0-9A-F]{2})*)?(#([a-zA-Z0-9._-]|%[0-9A-F]{2})*)?";
@@ -116,4 +116,34 @@ export const simpleFormat = (str) => {
   return str.split('\n')
     .map(line => `${line}<br/>`)
     .join('');
+}
+
+export function json2HumanReadable(jsonObj, reviseReg = /(.+)_translations$/) {
+  try {
+    JSON.parse(jsonObj)
+  } catch(e) {
+    return ;
+  }
+
+  return pipe(
+    JSON.parse,
+    toPairs,
+    map((record) => {
+      const matches = reviseReg.exec(record[0]);
+      if (matches && matches[1]) {
+        return [matches[1], record[1]]
+      }
+
+      return record;
+    }),
+    map((record) => {
+      if(prop('zh-TW', record[1])) {
+        return [record[0], prop('zh-TW')(record[1])];
+      }
+      else {
+        return record;
+      }
+    }),
+    fromPairs,
+  )(jsonObj)
 }

@@ -3,7 +3,7 @@ import * as utils from './textUtils.js';
 
 describe('textUtils#isChinese', () => {
   it('is chinese', () => {
-    expect(utils.isChinese('中文')).toBe(true);
+    expect(utils.isChinese('中')).toBe(true);
   })
 
   it('is not chinese character', () => {
@@ -187,3 +187,20 @@ describe('textUtils#isValidURL', () => {
     expect(utils.isValidURL('http://localhost:3000')).toBe(false)
   })
 });
+
+
+describe('textUtils#recordToHumanReadable', () => {
+  const obj = JSON.stringify({
+    title_translations: {
+      'zh-TW': '1234'
+    } 
+  });
+
+  const expected = {
+    title: '1234'
+  }
+
+  it('object should be converted correctly', () => {
+    expect(utils.json2HumanReadable(obj)).toEqual(expected);
+  })
+})
